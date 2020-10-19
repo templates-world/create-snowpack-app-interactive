@@ -24,7 +24,8 @@
   "files": [
     "bin",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "template.json"
   ],
   "keywords": [
     "snowpack",
