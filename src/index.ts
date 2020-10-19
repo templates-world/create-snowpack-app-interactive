@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import ora from 'ora';
 import del from 'del';
 import fs from 'fs-extra';
