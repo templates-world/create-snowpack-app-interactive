@@ -67,7 +67,7 @@ setup.then((answers: Answers<string>) => {
                 snowpackConfig.plugins.push(["snowpack-plugin-relative-css-urls"]);
                 snowpackConfig.alias = { "src": "./src" };
                 snowpackConfig.devOptions = { "port": answers.port };
-                return fs.writeFile(path.join(answers.outDir, 'snowpack.config.js'), JSON.stringify(snowpackConfig, null, 2));
+                return fs.writeFile(path.join(answers.outDir, 'snowpack.config.js'), 'module.exports = ' + JSON.stringify(snowpackConfig, null, 2));
             })
             .then(() => {
                 spinner_config.succeed();
