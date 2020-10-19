@@ -1,7 +1,7 @@
 {
   "name": "new-snowpack-project",
   "description": "Create a new Snowpack project using a human friendly CLI.",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "src/index.js",
   "scripts": {
     "start": "npm run build && node bin",
