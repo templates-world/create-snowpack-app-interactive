@@ -5,6 +5,7 @@ A CLI to generate a new [Snowpack](https://www.snowpack.dev) project. It allows 
 ## Install
 
 **Npm:** ``npm i -g new-snowpack-project``
+
 **Yarn:** ``yarn global add new-snowpack-project``
 
 ## Usage
