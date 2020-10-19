@@ -1,0 +1,1 @@
+export { TemplateModel } from './template';

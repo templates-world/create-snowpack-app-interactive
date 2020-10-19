@@ -1,0 +1,51 @@
+{
+  "name": "new-snowpack-project",
+  "description": "Create a new Snowpack project using a human friendly CLI.",
+  "version": "0.1.0",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "npm run build && node bin",
+    "build": "rimraf bin && tsc"
+  },
+  "bin": {
+    "new-snowpack-project": "./bin/index.js",
+    "nsp": "./bin/index.js"
+  },
+  "license": "GPL-3.0-or-later",
+  "author": "Olyno",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frontend-templates-world/new-snowpack-project.git"
+  },
+  "bugs": {
+    "url": "https://github.com/frontend-templates-world/emojis-list/issues"
+  },
+  "homepage": "https://github.com/frontend-templates-world/emojis-list#readme",
+  "files": [
+    "bin",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "snowpack",
+    "cli",
+    "projects"
+  ],
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "del": "^5.1.0",
+    "fs-extra": "^9.0.1",
+    "globby": "^11.0.1",
+    "ora": "^5.1.0",
+    "prompts": "^2.3.2"
+  },
+  "devDependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/del": "^4.0.0",
+    "@types/fs-extra": "^9.0.2",
+    "@types/ora": "^3.2.0",
+    "@types/prompts": "^2.0.9",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.0.3"
+  }
+}

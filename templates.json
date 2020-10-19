@@ -1,0 +1,130 @@
+[
+    {
+        "name": "@snowpack/app-template-blank",
+        "description": "A blank template with snowpack.",
+        "router": null,
+        "is_official": true,
+        "is_community": false,
+        "has_typescript": true
+    },
+    {
+        "name": "@snowpack/app-template-react",
+        "description": "A React template with snowpack.",
+        "router": "react-router-dom",
+        "is_official": true,
+        "is_community": false,
+        "has_typescript": true
+    },
+    {
+        "name": "@snowpack/app-template-preact",
+        "description": "A Preact template with snowpack.",
+        "router": "preact-router",
+        "is_official": true,
+        "is_community": false,
+        "has_typescript": false
+    },
+    {
+        "name": "@snowpack/app-template-svelte",
+        "description": "A Svelte template with snowpack.",
+        "router": "yrv",
+        "is_official": true,
+        "is_community": false,
+        "has_typescript": false
+    },
+    {
+        "name": "@snowpack/app-template-vue",
+        "description": "A Vue template with snowpack.",
+        "router": "vue-router",
+        "is_official": true,
+        "is_community": false,
+        "has_typescript": false
+    },
+    {
+        "name": "@snowpack/app-template-minimal",
+        "description": "A minimal template with snowpack.",
+        "router": null,
+        "is_official": true,
+        "is_community": false,
+        "has_typescript": false
+    },
+    {
+        "name": "@snowpack/app-template-lit-element",
+        "description": "A Lit template with snowpack.",
+        "router": null,
+        "is_official": true,
+        "is_community": false,
+        "has_typescript": true
+    },
+    {
+        "name": "@snowpack/app-template-11ty",
+        "description": "A 11ty template with snowpack.",
+        "router": "vue-router",
+        "is_official": true,
+        "is_community": false,
+        "has_typescript": false
+    },
+    {
+        "name": "snowpack-template-preset-env",
+        "description": "A PostCSS + Babel template with snowpack.",
+        "router": null,
+        "is_official": false,
+        "is_community": true,
+        "has_typescript": false
+    },
+    {
+        "name": "11st-Starter-Kit",
+        "description": "A 11ty + tailwindcss template with snowpack.",
+        "router": null,
+        "is_official": false,
+        "is_community": true,
+        "has_typescript": false
+    },
+    {
+        "name": "app-template-reason-react",
+        "description": "A ReasonML (BuckleScript) & reason-react on top of @snowpack/app-template-react template with snowpack.",
+        "router": null,
+        "is_official": false,
+        "is_community": true,
+        "has_typescript": false
+    },
+    {
+        "name": "svelte-tailwind",
+        "description": "A PostCSS and TailwindCSS using svelte-preprocess template with snowpack.",
+        "router": "yrv",
+        "is_official": false,
+        "is_community": true,
+        "has_typescript": false
+    },
+    {
+        "name": "snowpack-react-tailwind",
+        "description": "A React + Tailwindcss template with snowpack.",
+        "router": "react-router-dom",
+        "is_official": false,
+        "is_community": true,
+        "has_typescript": false
+    },
+    {
+        "name": "hyperapp-snowpack",
+        "description": "A Hyperapp + TailwindCSS template with snowpack.",
+        "router": null,
+        "is_official": false,
+        "is_community": true,
+        "has_typescript": false
+    },
+    {
+        "name": "snowpack-vue-capacitor-2-demo",
+        "description": "Demo of Snowpack with Vue and Capacitor mobile app framework version 2, originally generated from @snowpack/vue-template template, see discussion <a href=\"https://github.com/pikapkg/snowpack/discussions/905\"></a>",
+        "router": null,
+        "is_official": false,
+        "is_community": true,
+        "has_typescript": false
+    },
+    {
+        "name": "snowpack-react-ssr",
+        "description": "A React + Server Side Rendering template with snowpack.",
+        "router": null,
+        "is_official": false,
+        "is_community": true,
+        "has_typescript": false
+    }
+]
