@@ -34,7 +34,7 @@ const questions: PromptObject<string>[] = [
     {
         type: (prev: string, answers: any) => (answers.template as TemplateModel).has_typescript ? 'select' : null,
         name: 'withTypescript',
-        message: 'Should we add a Typescript support?',
+        message: 'Would you like to use TypeScript?',
         choices: [
             { title: "Yes", value: true },
             { title: "No", value: false }
