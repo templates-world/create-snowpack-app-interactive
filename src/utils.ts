@@ -1,6 +1,16 @@
+import fs from 'fs-extra';
+
 export function capitalize(s: string): string {
     if (typeof s !== 'string') return '';
     return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+export function isEmpty(path: string): boolean {
+    try {
+        return fs.readdirSync(path).length === 0;
+    } catch (err) {
+        return false;
+    }
 }
 
 export async function execute(command: string) {

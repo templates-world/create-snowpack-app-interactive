@@ -1,8 +1,9 @@
 import prompt, { Choice, PromptObject } from 'prompts';
 import fs from 'fs-extra';
+import path from 'path';
 import { TemplateModel } from './models';
 import { SetupModel } from './models/setup';
-import { capitalize } from './utils';
+import { capitalize, isEmpty } from './utils';
 import { packagesManagers } from './packageManagers';
 
 const templates = require('../templates.json');
@@ -28,8 +29,14 @@ const questions: PromptObject<string>[] = [
     {
         type: 'text',
         name: 'outDir',
-        validate: (value: string) => !fs.existsSync(value),
-        message: `Where should we generate the template?`,
+        validate: (outDir: string): string | boolean => {
+            const dir = path.resolve(outDir);
+            if (!fs.existsSync(dir) || isEmpty(dir)) {
+                return true;
+            }
+            return !isEmpty(dir) ? `The directory '${dir}' is not empty.` : `The directory '${dir}' already exists`;
+        },
+        message: 'At what path should we generate the template?',
     },
     {
         type: (prev: string, answers: any) => (answers.template as TemplateModel).has_typescript ? 'select' : null,
