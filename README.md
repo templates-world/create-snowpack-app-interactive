@@ -1,16 +1,16 @@
-# new-snowpack-project
+# create-snowpack-app-interactive
 
 A CLI to generate a new [Snowpack](https://www.snowpack.dev) project. It allows you to customize all your project.
 
 ## Install
 
-**Npm:** ``npm i -g new-snowpack-project``
+**Npm:** ``npm i -g create-snowpack-app-interactive``
 
-**Yarn:** ``yarn global add new-snowpack-project``
+**Yarn:** ``yarn global add create-snowpack-app-interactive``
 
 ## Usage
 
-Simply run ``new-snowpack-project`` or ``nsp`` to start the skeleton.
+Simply run ``create-snowpack-app-interactive`` to start the skeleton.
 
 ## Buy me a ko-fi
 
