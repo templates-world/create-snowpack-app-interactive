@@ -77,8 +77,8 @@ const questions: PromptObject<string>[] = [
     {
         type: 'number',
         name: 'port',
-        message: 'What port do you want to use?',
-        initial: 3000
+        message: 'What port the app should use?',
+        initial: 8080
     },
     {
         type: 'select',
