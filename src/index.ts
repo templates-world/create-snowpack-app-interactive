@@ -36,8 +36,6 @@ setup.then((answers: Answers<string>) => {
                 + ' ' + externalDependencies.join(' ')
                 + ' ' + packageManager.dev
         }
-
-        if (!isEmpty(answers.outDir)) return console.error(`Seems like "${answers.outDir}" is not empty. Can't create the project there.`)
         
         return execute(`npx create-snowpack-app ${answers.outDir} --template ${template.name} ${fs.existsSync(answers.outDir) ? '--force' : ''}`)
             .then(() => del([
