@@ -1,4 +1,4 @@
-import prompt, { Choice, PromptObject } from 'prompts';
+import prompt, { PromptObject } from 'prompts';
 import fs from 'fs-extra';
 import path from 'path';
 import { TemplateModel } from './models';
@@ -6,26 +6,11 @@ import { SetupModel } from './models/setup';
 import { capitalize, isEmpty } from './utils';
 import { packagesManagers } from './packageManagers';
 
-const templates = require('../templates.json');
+import librairies from './data/librairies.json';
+import templates from './data/templates.json';
+import plugins from './data/plugins.json';
 
 const questions: PromptObject<string>[] = [
-    {
-        type: 'autocomplete',
-        name: 'template',
-        message: 'Pick a template',
-        suggest: (input: string, choices: Choice[]): Promise<any> => new Promise((resolve) => resolve(
-            choices.filter(choice => choice.title.toLowerCase().includes(input.toLowerCase()))
-        )),
-        choices: templates.map((template: TemplateModel) => {
-            return {
-                title: template.name + 
-                    (template.is_official ? ' (Official)' : '') +
-                    (template.is_community ? ' (Community)' : ''),
-                description: template.description,
-                value: template
-            }
-        })
-    },
     {
         type: 'text',
         name: 'outDir',
@@ -39,40 +24,44 @@ const questions: PromptObject<string>[] = [
         message: 'At what path should we generate the template?',
     },
     {
-        type: (prev: string, answers: any) => (answers.template as TemplateModel).has_typescript ? 'select' : null,
+        type: 'select',
+        name: 'templates',
+        message: 'What UI library/framework would you like to use?',
+        format: (library: string) => templates.filter(template => 
+            template.name.includes('-' + library) || template.name.includes(library + '-')
+        ),
+        choices: librairies.map(library => {
+            return { title: capitalize(library.name), value: library.name };
+        })
+    },
+    {
+        type: (prev: string, answers: any) => answers.templates.find(template => template.has_typescript) ? 'select' : null,
         name: 'withTypescript',
         message: 'Would you like to use TypeScript?',
+        format: (installIt: boolean, { templates: templatesList }) => templatesList.filter(template => installIt && template.has_typescript),
         choices: [
             { title: "Yes", value: true },
             { title: "No", value: false }
         ]
     },
     // {
-    //     type: (prev, answers) => answers.template.router ? 'select' : null,
+    //     type: (prev, answers) => answers.library.router ? 'select' : null,
     //     name: 'withRouter',
-    //     message: (prev, answers) => `Should we add a Router (${answers.template.router})?`,
+    //     message: (prev, answers) => `Should we add a Router (${answers.library.router})?`,
     //     choices: [
     //         { title: "Yes", value: true },
     //         { title: "No", value: false }
     //     ]
     // },
     {
-        type: 'select',
-        name: 'withPostcss',
-        message: 'Should we add Postcss with autoprefixer? (able you to make your css works everywhere)',
-        choices: [
-            { title: "Yes", value: true },
-            { title: "No", value: false }
-        ]
-    },
-    {
-        type: 'select',
-        name: 'withFontMagician',
-        message: 'Should we add Font Magician? (able you to import fonts only from name)',
-        choices: [
-            { title: "Yes", value: true },
-            { title: "No", value: false }
-        ]
+        type: 'multiselect',
+        name: 'plugins',
+        message: 'Should we add some plugins?',
+        instructions: false,
+        hint: '- Space to select. Return to submit',
+        choices: plugins.map(plugin => {
+            return { title: plugin.name, value: plugin.dependencies }
+        })
     },
     {
         type: 'number',

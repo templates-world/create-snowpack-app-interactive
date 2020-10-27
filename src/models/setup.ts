@@ -1,11 +1,11 @@
 import { TemplateModel } from ".";
 
 export interface SetupModel {
-    template: TemplateModel;
+    library: string;
     outDir: string;
+    templates: TemplateModel[];
     withTypescript: boolean;
-    withPostcss: boolean;
-    withFontMagician: boolean;
+    plugins: string[]
     port: number;
     installWith: 'npm' | 'yarn' | 'pnpm' | 'custom';
 }

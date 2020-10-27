@@ -12,11 +12,13 @@ import { execute } from './utils';
 
 import { setup } from './setup';
 import { Answers } from 'prompts';
+import { TemplateModel } from './models';
 
 const isFile = (file: string) => fs.lstatSync(file).isFile();
 
 setup.then((answers: Answers<string>) => {
     if (answers.installWith) {
+        const template: TemplateModel = answers.templates[0];
         const externalDependencies = ['snowpack-plugin-relative-css-urls'];
         const spinner_download = ora('Downloading the selected template...').start();
         const spinner_dependencies = ora('Installing dependencies...');
@@ -24,8 +26,7 @@ setup.then((answers: Answers<string>) => {
         // const spinner_router = ora('Setup router...');
         if (answers.customPM) answers.installWith = answers.customPM;
         if (answers.withRouter) externalDependencies.push(answers.template.router);
-        if (answers.withPostcss) externalDependencies.push('postcss-cli', 'autoprefixer');
-        if (answers.withFontMagician) externalDependencies.push('postcss-font-magician');
+        externalDependencies.push(...answers.plugins.flat());
         answers.outDir = path.resolve(answers.outDir);
         let installCommand = '';
         const packageManager = packagesManagers.find(pkgManager => pkgManager.name === answers.installWith) ?? answers.installWith;
@@ -35,7 +36,7 @@ setup.then((answers: Answers<string>) => {
                 + ' ' + externalDependencies.join(' ')
                 + ' ' + packageManager.dev
         };
-        return execute(`npx create-snowpack-app ${answers.outDir} --template ${answers.template.name}${answers.withTypescript ? '-typescript' : ''}`)
+        return execute(`npx create-snowpack-app ${answers.outDir} --template ${template.name}`)
             .then(() => del([
                 path.join(answers.outDir, 'package-lock.json'),
                 path.join(answers.outDir, 'node_modules')
