@@ -6,7 +6,7 @@ import { SetupModel } from './models/setup';
 import { capitalize, isEmpty } from './utils';
 import { packagesManagers } from './packageManagers';
 
-import librairies from './data/librairies.json';
+import libraries from './data/libraries.json';
 import templates from './data/templates.json';
 import plugins from './data/plugins.json';
 
@@ -30,7 +30,7 @@ const questions: PromptObject<string>[] = [
         format: (library: string) => templates.filter(template => 
             template.name.includes('-' + library) || template.name.includes(library + '-')
         ),
-        choices: librairies.map(library => {
+        choices: libraries.map(library => {
             return { title: capitalize(library.name), value: library.name };
         })
     },
@@ -60,7 +60,7 @@ const questions: PromptObject<string>[] = [
         instructions: false,
         hint: '- Space to select. Return to submit',
         choices: plugins.map(plugin => {
-            return { title: plugin.name, value: plugin.dependencies }
+            return { title: plugin.name, value: plugin }
         })
     },
     {

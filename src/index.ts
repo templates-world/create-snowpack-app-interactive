@@ -8,7 +8,7 @@ import globby from 'globby';
 import chalk from 'chalk';
 
 import { packagesManagers } from './packageManagers';
-import { execute } from './utils';
+import { execute, isEmpty } from './utils';
 
 import { setup } from './setup';
 import { Answers } from 'prompts';
@@ -26,7 +26,7 @@ setup.then((answers: Answers<string>) => {
         // const spinner_router = ora('Setup router...');
         if (answers.customPM) answers.installWith = answers.customPM;
         if (answers.withRouter) externalDependencies.push(answers.template.router);
-        externalDependencies.push(...answers.plugins.flat());
+        externalDependencies.push(...answers.plugins.map(plugin => plugin.dependencies).flat());
         answers.outDir = path.resolve(answers.outDir);
         let installCommand = '';
         const packageManager = packagesManagers.find(pkgManager => pkgManager.name === answers.installWith) ?? answers.installWith;
@@ -35,8 +35,11 @@ setup.then((answers: Answers<string>) => {
                 + ' ' + packageManager.addDependency
                 + ' ' + externalDependencies.join(' ')
                 + ' ' + packageManager.dev
-        };
-        return execute(`npx create-snowpack-app ${answers.outDir} --template ${template.name}`)
+        }
+
+        if (!isEmpty(answers.outDir)) return console.error(`Seems like "${answers.outDir}" is not empty. Can't create the project there.`)
+        
+        return execute(`npx create-snowpack-app ${answers.outDir} --template ${template.name} ${fs.existsSync(answers.outDir) ? '--force' : ''}`)
             .then(() => del([
                 path.join(answers.outDir, 'package-lock.json'),
                 path.join(answers.outDir, 'node_modules')
@@ -55,7 +58,7 @@ setup.then((answers: Answers<string>) => {
             .then(() => {
                 spinner_config.start();
                 const snowpackConfig = require(path.join(answers.outDir, 'snowpack.config.js'));
-                if (answers.withPostcss) {
+                if (answers.plugins.find(plugin => plugin.name.toLowerCase() === 'postcss')) {
                     fs.writeFile(path.join(answers.outDir, 'postcss.config.js'), `module.exports = {
                         plugins: [
                             require('autoprefixer'),
