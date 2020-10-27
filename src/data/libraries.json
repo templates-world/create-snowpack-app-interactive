@@ -1,0 +1,17 @@
+[
+    {
+        "name": "react"
+    },
+    {
+        "name": "preact"
+    },
+    {
+        "name": "svelte"
+    },
+    {
+        "name": "vue"
+    },
+    {
+        "name": "blank"
+    }
+]

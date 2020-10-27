@@ -1,0 +1,10 @@
+[
+    {
+        "name": "PostCSS",
+        "dependencies": ["postcss-cli", "autoprefixer@9.8.6"]
+    },
+    {
+        "name": "Font Magician",
+        "dependencies": ["postcss-font-magician"]
+    }
+]
