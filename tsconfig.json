@@ -12,7 +12,8 @@
       "strict": true,
       "noImplicitAny": false,
       "esModuleInterop": true,
-      "resolveJsonModule": true
+      "resolveJsonModule": true,
+      "sourceMap": true
     },
     "exclude": ["lib", "node_modules"]
   }

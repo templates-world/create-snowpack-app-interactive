@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "start": "npm run build && node bin",
-    "build": "rimraf bin && tsc"
+    "build": "rimraf bin && tsc",
+    "dev": "rimraf bin && tsc --watch"
   },
   "bin": {
     "create-snowpack-app-interactive": "./bin/index.js",

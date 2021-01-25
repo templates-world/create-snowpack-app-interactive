@@ -1,19 +1,19 @@
-import prompt, { PromptObject } from 'prompts';
+import del from 'del';
 import fs from 'fs-extra';
 import path from 'path';
-import { TemplateModel } from './models';
-import { SetupModel } from './models/setup';
-import { capitalize, isEmpty } from './utils';
-import { packagesManagers } from './packageManagers';
-
+import prompt, { Answers, PromptObject } from 'prompts';
 import libraries from './data/libraries.json';
-import templates from './data/templates.json';
+import packagesManagers from './data/packagesManagers.json';
 import plugins from './data/plugins.json';
+import templates from './data/templates.json';
+import { PackageManagerModel, SetupModel, TemplateModel } from './models';
+import { capitalize, execute, isEmpty } from './utils';
 
 const questions: PromptObject<string>[] = [
     {
         type: 'text',
         name: 'outDir',
+        initial: process.argv[2],
         validate: (outDir: string): string | boolean => {
             const dir = path.resolve(outDir);
             if (!fs.existsSync(dir) || isEmpty(dir)) {
@@ -87,6 +87,65 @@ const questions: PromptObject<string>[] = [
     }
 ]
 
-const setup = prompt(questions);
+async function installDependencies(answers: Answers<string>, dependencies: string[], devDependencies: string[]) {
+    const installCommands: string[] = [];
+    const packageManager: PackageManagerModel = packagesManagers.find(pkgManager => pkgManager.name === answers.installWith) ?? answers.installWith;
+    const addDependencyCommand = answers.installWith + ' ' + packageManager.addDependency;
+    for (const plugin of answers.plugins) {
+        switch (plugin.name.toLowerCase()) {
+            case 'postcss':
+                devDependencies.push('@snowpack/plugin-build-script');
+                break;
+            default:
+                break;
+        }
+    }
+    if (answers.installWith !== 'custom') {
+        if (devDependencies.length > 0) {
+            installCommands.push(`${addDependencyCommand} ${devDependencies.join(' ')} ${packageManager.dev}`);
+        }
+        if (dependencies.length > 0) {
+            installCommands.push(`${addDependencyCommand} ${dependencies.join(' ')}`);
+        }
+    }
+    const installCommand = installCommands.join(' && ');
+    return execute(answers.installWith + ' --version')
+        .then(() => execute(`cd ${answers.outDir} && ${installCommand}`))
+        .catch(() => execute(`cd ${answers.outDir} && npx ${installCommand}`));
+}
 
-export { setup }
+async function setupSnowpack(answers: Answers<string>) {
+    const snowpackConfig = require(path.join(answers.outDir, 'snowpack.config.js'));
+    for (const plugin of answers.plugins) {
+        switch (plugin.name.toLowerCase()) {
+            case 'postcss':
+                fs.writeFile(path.join(answers.outDir, 'postcss.config.js'), `module.exports = {
+                    plugins: [
+                        require('autoprefixer'),
+                        ${answers.withFontMagician ? 'require(\'postcss-font-magician\'),': ''}
+                    ],
+                };`);
+                snowpackConfig.plugins.push(["@snowpack/plugin-build-script", {"cmd": "postcss", "input": [".css"], "output": [".css"]}]);
+                break;
+            default:
+                break;
+        }
+    }
+    snowpackConfig.plugins.push(["snowpack-plugin-relative-css-urls"]);
+    snowpackConfig.alias = { "src": "./src" };
+    snowpackConfig.devOptions = { "port": answers.port };
+    return fs.writeFile(path.join(answers.outDir, 'snowpack.config.js'), 'module.exports = ' + JSON.stringify(snowpackConfig, null, 2));
+}
+
+async function setupTemplate(answers: Answers<string>, template: TemplateModel) {
+    return execute(`npx create-snowpack-app ${answers.outDir} --template ${template.name} ${fs.existsSync(answers.outDir) ? '--force' : ''}`)
+        .then(() => del([
+            path.join(answers.outDir, 'package-lock.json'),
+            path.join(answers.outDir, 'node_modules')
+        ], { force: true }));
+}
+
+const askQuestions = () => prompt(questions);
+
+export { askQuestions, installDependencies, setupSnowpack, setupTemplate };
+

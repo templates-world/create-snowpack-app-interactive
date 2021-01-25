@@ -1,4 +1,9 @@
+import chalk from 'chalk';
 import fs from 'fs-extra';
+
+export const warn = (message: string) => console.log(chalk.yellow('⚠️') + ' ' + message);
+export const error = (message: string) => console.log(chalk.red('✖') + ' ' + message);
+export const success = (message: string) => console.log(chalk.green('✔') + ' ' + message);
 
 export function capitalize(s: string): string {
     if (typeof s !== 'string') return '';
@@ -13,6 +18,8 @@ export function isEmpty(path: string): boolean {
     }
 }
 
+export const isFile = (file: string) => fs.lstatSync(file).isFile();
+
 export async function execute(command: string) {
     return new Promise((resolve, rejects) => {
         const args = command.split(' ');
@@ -24,7 +31,7 @@ export async function execute(command: string) {
             if (parseInt(code) !== 0) {
                 rejects();
             }
-            resolve();
+            resolve(null);
         });
     })
 }
