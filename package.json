@@ -37,7 +37,7 @@
     "del": "^5.1.0",
     "fs-extra": "^9.0.1",
     "globby": "^11.0.1",
-    "ora": "^5.1.0",
+    "ora": "^6.0.0",
     "prompts": "^2.3.2"
   },
   "devDependencies": {
